@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Default UI By HuaLingson-->
+<FeiYang>
+	<Menus>
+		<Menu tag="#File">
+			<Menu tag="#New" style="normal">
+				<Menu tag="#Project" style="normal" />
+				<Menu tag="#Text" style="normal" />
+			</Menu>
+			<Menu tag="#Save" style="normal" />
+			<Menu tag="save#As" style="normal" />
+			<Menu tag="e#Xit" style="normal" />
+		</Menu>
+		<Menu tag="plug#Ins">
+			<Menu tag="PythonInterpreter" style="check" />
+		</Menu>
+		<Menu tag="#Help">
+			<Menu tag="about" />
+		</Menu>
+	</Menus>
+	<Status>
+		<time format="" />
+	</Status>
+	<FyExplorer>
+		<Page name="MyMachine" />
+		<Page name="MyWorkspace" />
+	</FyExplorer>
+	<FyMedia>
+		<Page name="Home" script="plugins.home"/>
+	</FyMedia>
+	<FyInterpreter>
+	</FyInterpreter>
+</FeiYang>
