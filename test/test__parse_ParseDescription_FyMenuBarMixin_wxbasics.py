@@ -5,11 +5,11 @@
 @license: gpl
 '''
 
-#TODO: ÈçºÎ·Çµİ¹éµÄ½â¾öÈÎÒâ²ãÊı²Ëµ¥µÄ¶¨ÖÆ
+#TODO: å¦‚ä½•éé€’å½’çš„è§£å†³ä»»æ„å±‚æ•°èœå•çš„å®šåˆ¶
 
 from config.constants import NotFound
 
-#ÕıÔò±í´ïÊ½ĞŞÕı
+#æ­£åˆ™è¡¨è¾¾å¼ä¿®æ­£
 import re
 ReXMMenu = re.compile('#([^#]*?):\{(.*?)\}#[^#]')
 

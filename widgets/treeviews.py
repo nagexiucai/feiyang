@@ -12,7 +12,6 @@ from config.constants import *
 class TreeView(FyLayoutMixin):
     def __init__(self, parent):
         FyLayoutMixin.__init__(self, parent)
-        self.aspect = self._vertical
         self._Set('_2sz_options_pane', (self.MakeOptions(), Fixed))
         self._Set('_2sz_tree_pane', (self.MakeTree(), Auto))
         self.FyLayout()

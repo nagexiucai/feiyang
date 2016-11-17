@@ -48,8 +48,8 @@ class Node:
 def _CalculateIndent(ustr):
     return len(ustr) - len(ustr.lstrip())
 cnt = 0
-def StructuredByIndent2NodeTree(lines, node): #TODO: ¹ã¶ÈÓÅÏÈBFS£¨Breadth First Search£©
-    #Éî¶ÈÓÅÏÈDFS£¨Depth-First Traversal£©
+def StructuredByIndent2NodeTree(lines, node): #TODO: å¹¿åº¦ä¼˜å…ˆBFSï¼ˆBreadth First Searchï¼‰
+    #æ·±åº¦ä¼˜å…ˆDFSï¼ˆDepth-First Traversalï¼‰
     while True:
         try:
             line = lines.pop(0)
@@ -58,22 +58,22 @@ def StructuredByIndent2NodeTree(lines, node): #TODO: ¹ã¶ÈÓÅÏÈBFS£¨Breadth First 
         name = line.strip()
         if name:
             break
-    newnode = Node(name, _CalculateIndent(line)) #°ü×°ĞÂ½Úµãnewnode
-    if newnode.GetLevel() > node.GetLevel(): #ĞÂ½ÚµãnewnodeÊÇÀÏÆğµã½ÚµãnodeµÄÍí±²
-        node.AppendKid(newnode) #ÀÏÆğµã½ÚµãnodeÌí¼ÓÒÔĞÂ½ÚµãnewnodeÎª¸ù½ÚµãµÄ×ÓÊ÷£¨µ±Ç°»¹½öÊÇÑÇ¸ù½Úµã£¬Ğë´ıµİ¹é½áÊø£©
-        while True: #»ñÈ¡ĞÂ½ÚµãnewnodeÏÂµÄÉ­ÁÖ£¨¶à¿ÃÊ÷£©
-            x = StructuredByIndent2NodeTree(lines, newnode) #ÒÔ´ËĞÂ½ÚµãnewnodeÎªĞÂÆğµãµİ¹é£¬»ñµÃÆğµã½ÚµãÒÔÏÂµÄ×ÓÊ÷¸ù½ÚµãX
-            if x is None: #ÎÄ±¾´¦ÀíÍê
+    newnode = Node(name, _CalculateIndent(line)) #åŒ…è£…æ–°èŠ‚ç‚¹newnode
+    if newnode.GetLevel() > node.GetLevel(): #æ–°èŠ‚ç‚¹newnodeæ˜¯è€èµ·ç‚¹èŠ‚ç‚¹nodeçš„æ™šè¾ˆ
+        node.AppendKid(newnode) #è€èµ·ç‚¹èŠ‚ç‚¹nodeæ·»åŠ ä»¥æ–°èŠ‚ç‚¹newnodeä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘ï¼ˆå½“å‰è¿˜ä»…æ˜¯äºšæ ¹èŠ‚ç‚¹ï¼Œé¡»å¾…é€’å½’ç»“æŸï¼‰
+        while True: #è·å–æ–°èŠ‚ç‚¹newnodeä¸‹çš„æ£®æ—ï¼ˆå¤šæ£µæ ‘ï¼‰
+            x = StructuredByIndent2NodeTree(lines, newnode) #ä»¥æ­¤æ–°èŠ‚ç‚¹newnodeä¸ºæ–°èµ·ç‚¹é€’å½’ï¼Œè·å¾—èµ·ç‚¹èŠ‚ç‚¹ä»¥ä¸‹çš„å­æ ‘æ ¹èŠ‚ç‚¹X
+            if x is None: #æ–‡æœ¬å¤„ç†å®Œ
                 break
             if x.GetLevel() > newnode.GetLevel():
                 newnode.AppendKid(x)
-            elif x.GetLevel() == newnode.GetLevel(): #X½ÚµãºÍĞÂ½ÚµãnewnodeÊÇÍ¬±²£¬ÔòÊÇÀÏÆğµã½ÚµãnodeµÄÍí±²
-                node.AppendKid(x) #ÀÏÆğµã½ÚµãnodeÌí¼ÓÍí±²½Úµã
-                newnode = x #Í¬±²½ÚµãXÒÑ¾­Ìí¼Ó£¬´Ëºó»»´ËÍ¬±²½ÚµãX×öĞÂÆğµãµİ¹é£¡
-            elif x.GetLevel() <= node.GetLevel(): #ÈôĞÂ½Úµãnewnode²ã¼¶µÈÓÚ»ò¸ßÓÚÀÏÆğµã½Úµãnode£¬±ØĞëÍË»ØÉÏ²ãÄ±Çó´¦Àí£¡
+            elif x.GetLevel() == newnode.GetLevel(): #XèŠ‚ç‚¹å’Œæ–°èŠ‚ç‚¹newnodeæ˜¯åŒè¾ˆï¼Œåˆ™æ˜¯è€èµ·ç‚¹èŠ‚ç‚¹nodeçš„æ™šè¾ˆ
+                node.AppendKid(x) #è€èµ·ç‚¹èŠ‚ç‚¹nodeæ·»åŠ æ™šè¾ˆèŠ‚ç‚¹
+                newnode = x #åŒè¾ˆèŠ‚ç‚¹Xå·²ç»æ·»åŠ ï¼Œæ­¤åæ¢æ­¤åŒè¾ˆèŠ‚ç‚¹Xåšæ–°èµ·ç‚¹é€’å½’ï¼
+            elif x.GetLevel() <= node.GetLevel(): #è‹¥æ–°èŠ‚ç‚¹newnodeå±‚çº§ç­‰äºæˆ–é«˜äºè€èµ·ç‚¹èŠ‚ç‚¹nodeï¼Œå¿…é¡»é€€å›ä¸Šå±‚è°‹æ±‚å¤„ç†ï¼
                 return x
     else:
-        return newnode #·µ»ØÀÏÆğµã½ÚµãnodeµÄ³¤±²»òÍ¬±²newnode
+        return newnode #è¿”å›è€èµ·ç‚¹èŠ‚ç‚¹nodeçš„é•¿è¾ˆæˆ–åŒè¾ˆnewnode
 
 def UString2Node(ustr=None):
     '''

@@ -61,8 +61,8 @@ class Text(wx.TextCtrl):
         style = kws.get('style')
 
 class Editor(FyLayoutMixin):
-    #Á½²ã£¨µ×²ã¡ª¡ªÍ¼°¸£»¶¥²ã¡ª¡ª·ûºÅ£©
-    #TODO: ÈçºÎÊµÏÖ´°¿ÚÍ¸ÊÓÍ¬Ê±²»Ó°Ïì±à¼­
+    #ä¸¤å±‚ï¼ˆåº•å±‚â€”â€”å›¾æ¡ˆï¼›é¡¶å±‚â€”â€”ç¬¦å·ï¼‰
+    #TODO: å¦‚ä½•å®ç°çª—å£é€è§†åŒæ—¶ä¸å½±å“ç¼–è¾‘
     __syntax_hight_light_set = {
                                 'python': Ellipsis, 
                                 'c': Ellipsis, 
@@ -74,7 +74,6 @@ class Editor(FyLayoutMixin):
                                 }
     def __init__(self, parent, content_type='text'):
         FyLayoutMixin.__init__(self, parent)
-        self.aspect = self._vertical
         self._Set('_2sz_paper', (Text(self, 'rich', 'multiline', 'autoscroll', 'bestwrap', 'autourl', 'left'), Auto))
         self.__content_type = type
         self.FyLayout()
