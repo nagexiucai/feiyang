@@ -19,8 +19,9 @@ RESOURCES_ROOT = os.path.join(START_PATH, 'resources')
 APPLICATION_LOG_PATH = os.path.join(START_PATH, 'FeiYang.error')
 APPLICATION_NAME_VERSION = '%s V%s' % (__mark__, __version__)
 
+from plugins import PluginPoints
 from config.images import PyImage_MainFrame
-from widgets.wxbasics import FyLayoutMixin, FyMenuBarMixin, FyStatusBarMixin, FyNotebookMixin
+from widgets.wxbasics import FyMenuBarMixin, FyStatusBarMixin, FyNotebookMixin
 from widgets.treeviews import FSTreeView
 from widgets.texteditor import Editor
 
@@ -38,6 +39,10 @@ class FyFrame(wx.Frame):
         self.__fyexplorer = FyNotebookMixin(self)
         self.__fyinterpreter = FyNotebookMixin(self)
         self.__fymedia = FyNotebookMixin(self)
+        PluginPoints.TOP = self
+        PluginPoints.EXPLORER = self.__fyexplorer
+        PluginPoints.INTERPRETER = self.__fyinterpreter
+        PluginPoints.MEDIA = self.__fymedia
         self.__wmanager.AddPane(self.__fyexplorer, wx.aui.AuiPaneInfo().Name('FyExplorer').Caption('FyExplorer').Left().MinSize((DefaultExplorerWidth, DefaultExplorerHeight)).MaximizeButton().CloseButton(False))
         self.__wmanager.AddPane(self.__fyinterpreter, wx.aui.AuiPaneInfo().Name('FyInterpreter').Caption('FyInterpreter').Bottom().MinSize((DefaultInterpreterWidth, DefaultInterpreterHeight)).MaximizeButton().CloseButton(False))
         self.__wmanager.AddPane(self.__fymedia, wx.aui.AuiPaneInfo().Name('FyMedia').Caption('FyMedia').CenterPane().CaptionVisible().MinSize((DefaultFyMediaWidth, DefaultFyMediaHeight)).MaximizeButton())
