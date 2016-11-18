@@ -8,7 +8,6 @@
 __mark__ = 'FeiYang'
 __version__ = '0.0.1'
 
-import wx
 import wx.aui
 import sys
 import os
@@ -19,6 +18,7 @@ RESOURCES_ROOT = os.path.join(START_PATH, 'resources')
 APPLICATION_LOG_PATH = os.path.join(START_PATH, 'FeiYang.error')
 APPLICATION_NAME_VERSION = '%s V%s' % (__mark__, __version__)
 
+from mixing.autoimport import *
 from plugins import PluginPoints
 from config.images import PyImage_MainFrame
 from widgets.wxbasics import FyMenuBarMixin, FyStatusBarMixin, FyNotebookMixin
@@ -62,8 +62,11 @@ class FyFrame(wx.Frame):
     def OnMenu(self, evt):
         wid = evt.GetId()
         item = self.GetMenuBar().FindItemById(wid)
-        tag = item.GetText()
-        print tag
+        name = item.GetLabel()
+        try:
+            exec('%s().Plugin()' % name)
+        except Exception as e:
+            print e.message
 
 class FyApp(wx.App):
     def __init__(self, frame):

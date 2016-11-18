@@ -5,45 +5,18 @@
 @license: gpl
 '''
 
-from plugins import M, V, C, MVC
+from plugins import M, PluginPoints
+from widgets.grids import SimpGridView
+from widgets.treeviews import TreeView, TreeViewHome
+from common.node import Node
 
-class RecordM(M):
-    def Define(self):
-        self.record = []
-
-class TableM(M):
-    def Define(self):
-        self.structure = None
-        self.records = []
-
-class DatabaseM(M):
-    def Define(self):
-        self.schema = {}
-
-class RecordV(V):
-    def Show(self):
-        pass
-
-class TableV(V):
-    def Show(self):
-        pass
-
-class DatabaseV(V):
-    def Show(self):
-        pass
-
-class RecordC(C):
-    def Operate(self):
-        pass
-
-class TableC(C):
-    def Operate(self):
-        pass
-
-class DatabaseC(C):
-    def Operate(self):
-        pass
-
-class SQLiteYarn(MVC):
+class SQLiteYarn(M):
+    def __init__(self):
+        M.__init__(self)
+        self.database = TreeView(PluginPoints.EXPLORER)
+        self.table = SimpGridView(PluginPoints.MEDIA)
     def Plugin(self):
-        pass
+        PluginPoints.EXPLORER.AddPage(self.database, 'database', select=True)
+        PluginPoints.MEDIA.AddPage(self.table, 'table', select=True)
+
+PluginPoints.SecureRegister('"S&QLiteYarn"[CTRL+Q](As UI for SQLite.)<>', SQLiteYarn)

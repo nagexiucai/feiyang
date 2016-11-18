@@ -5,7 +5,6 @@
 @license: gpl
 '''
 
-import wx
 from wxbasics import FyLayoutMixin
 from config.constants import *
 
@@ -74,7 +73,7 @@ class Editor(FyLayoutMixin):
                                 }
     def __init__(self, parent, content_type='text'):
         FyLayoutMixin.__init__(self, parent)
-        self._Set('_2sz_paper', (Text(self, 'rich', 'multiline', 'autoscroll', 'bestwrap', 'autourl', 'left'), Auto))
+        self._2sz_paper = Text(self, 'rich', 'multiline', 'autoscroll', 'bestwrap', 'autourl', 'left'), Auto
         self.__content_type = type
         self.FyLayout()
     def SetContent(self, content):

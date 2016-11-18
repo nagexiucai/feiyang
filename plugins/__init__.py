@@ -5,33 +5,22 @@
 @license: gpl
 '''
 
+from config.constants import *
+
 class PluginPoints(object):
+    REGISTER = {}
     TOP = None
     EXPLORER = None
     INTERPRETER = None
     MEDIA = None
+    @staticmethod
+    def SecureRegister(name, plugin):
+        assert ReXMMenu.match(name)
+        assert issubclass(plugin, M)
+        PluginPoints.REGISTER[name] = plugin
 
 class M(object):
-    def Define(self):
+    def __init__(self, *args):
         pass
-
-class V(object):
-    def Show(self):
-        pass
-
-class C(object):
-    def Operate(self):
-        pass
-
-class MVC(M, V, C):
-    def __init__(self, m, v, c):
-        M.__init__()
-        V.__init__()
-        C.__init__()
-        self.m = m
-        self.v = v
-        self.c = c
     def Plugin(self):
-        pass
-    def Pullout(self):
         pass

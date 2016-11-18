@@ -7,6 +7,9 @@
 
 import os
 
+def MakeBasePath():
+    return os.path.dirname(os.path.dirname(__file__))
+
 def JoinPath(*args):
     return os.path.join(*args)
 

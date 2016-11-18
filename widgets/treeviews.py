@@ -12,8 +12,8 @@ from config.constants import *
 class TreeView(FyLayoutMixin):
     def __init__(self, parent):
         FyLayoutMixin.__init__(self, parent)
-        self._Set('_2sz_options_pane', (self.MakeOptions(), Fixed))
-        self._Set('_2sz_tree_pane', (self.MakeTree(), Auto))
+        self._2sz_options_pane = self.MakeOptions(), Fixed
+        self._2sz_tree_pane = self.MakeTree(), Auto
         self.FyLayout()
     def MakeOptions(self):
         return FyLayoutMixin(self)
@@ -24,10 +24,10 @@ class TreeViewOptions(FyLayoutMixin):
     def __init__(self, parent):
         FyLayoutMixin.__init__(self, parent)
         self.aspect = self._horizental
-        self._Set('_2sz_collapse_all', (wx.Button(self, id=IdTreeCollapseAll, label='CollapseAll'), Auto))
-        self._Set('_2sz_expand_all', (wx.Button(self, id=IdTreeExpandAll, label='ExpandAll'), Auto))
-        self._Set('_2sz_collapse_this', (wx.Button(self, id=IdTreeCollapseThis, label='CollapseThis'), Auto))
-        self._Set('_2sz_expand_this', (wx.Button(self, id=IdTreeExpandThis, label='ExpandThis'), Auto))
+        self._2sz_collapse_all = wx.Button(self, id=IdTreeCollapseAll, label='CollapseAll'), Auto
+        self._2sz_expand_all = wx.Button(self, id=IdTreeExpandAll, label='ExpandAll'), Auto
+        self._2sz_collapse_this = wx.Button(self, id=IdTreeCollapseThis, label='CollapseThis'), Auto
+        self._2sz_expand_this = wx.Button(self, id=IdTreeExpandThis, label='ExpandThis'), Auto
         self.FyLayout()
 
 class TreeViewHome(FyLayoutMixin):
@@ -36,7 +36,7 @@ class TreeViewHome(FyLayoutMixin):
         root : must be instance of Node.node.common or its subclass
         '''
         FyLayoutMixin.__init__(self, parent)
-        self._Set('_2sz__tree', (wx.TreeCtrl(self), Auto))
+        self._2sz__tree = wx.TreeCtrl(self), Auto
         self.FyLayout()
         self.__root = self._2sz__tree.AddRoot(text=`root`)
         self._2sz__tree.SetPyData(self.__root, root)

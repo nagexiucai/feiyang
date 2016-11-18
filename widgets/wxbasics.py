@@ -8,6 +8,7 @@
 import wx
 import wx.aui
 from config.constants import *
+from plugins import PluginPoints
 
 class FyLayoutMixin(wx.Panel):
     #以‘_2sz_’开头命名的属性，纳入布局考虑范围，这种属性以元组（窗体，生长方向）初始化赋值
@@ -21,11 +22,13 @@ class FyLayoutMixin(wx.Panel):
         self.__2SZ_attr2proportion_map = {}
         self.__2SZ_order = []
         wx.Panel.__init__(self, parent)
-    def _Set(self, attr, val):
-        assert isinstance(val, tuple) and (len(val) == self.__2sz_value_length)
-        self.__2SZ_order.append(attr)
-        self.__2SZ_attr2proportion_map[attr] = val[self.__2sz_proportion_index]
-        self.__dict__[attr] = val[self.__2sz_instance_index]
+    def __setattr__(self, attr, val):
+        if attr.startswith('_2sz_'):
+            assert isinstance(val, tuple) and (len(val) == self.__2sz_value_length)
+            self.__2SZ_order.append(attr)
+            self.__2SZ_attr2proportion_map[attr] = val[self.__2sz_proportion_index]
+            val = val[self.__2sz_instance_index]
+        object.__setattr__(self, attr, val)
     def FyLayout(self):
         self.sizer = wx.BoxSizer(self.aspect)
         for _2sz in self.__2SZ_order:
@@ -59,19 +62,19 @@ class FyMenuBarMixin(wx.MenuBar):
         self.ParseDescription(parent)
     def ParseDescription(self, parent, description=None):
         #支持三层菜单
-        #‘&’分隔一二层；‘;’分隔第二层；‘:’分隔二三层；第三层无分隔
+        #一行一个配置单元；‘$’分隔一二层；‘;’分隔第二层；‘:’分隔二三层
         #第二层空分分割线；第三层‘shortname’和‘style’均为‘|’标识分割线
-        #第二层（含）一下各片段语法："shortname"[shortcut](tips)<style>，‘shortname’中快捷键字母前加‘&’
+        #第二层（含）以下各片段语法："shortname"[shortcut](tips)<style>，‘shortname’中快捷键字母前加‘&’
         #第一层片段仅包含‘shortname’
         '''
         &File$"&New"[CTRL+N](Create Or Open Existence.)<>:"&Project"[CTRL+P](Manage Works.)<>"|"[]()<|>"T&Ext"[CTRL+E](For Words Editing.)<>"&Binary"[CTRL+B](For Data Editing.)<>;;"Save&As"[CTRL+A](Record On Disk.)<>
         &Edit
-        Plug&Ins
+        Plug&Ins$%{plugins}
         S&Kin$"Blue"[]()<radio>"Black"[]()<radio>"Silver"[]()<radio>
         &Help
         '''
         if description is None:
-            description = self.ParseDescription.__doc__.strip()
+            description = self.ParseDescription.__doc__.strip().format(plugins=';'.join(PluginPoints.REGISTER.keys()))
             testm = FyMenuMixin()
             testm.ParseDescription()
             self.Append(testm, 'Test')
