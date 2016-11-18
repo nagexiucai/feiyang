@@ -27,6 +27,7 @@
 import sys
 from common.fsoperate import MakeBasePath, JoinPath
 PLUGINS = JoinPath(MakeBasePath(), 'plugins')
+sys.path.append(PLUGINS)
 
 #TODO: 实现监控指定目录下脚本的改动并重新加载
 from plugins.utils.sqliteyarn import SQLiteYarn

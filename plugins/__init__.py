@@ -16,11 +16,23 @@ class PluginPoints(object):
     @staticmethod
     def SecureRegister(name, plugin):
         assert ReXMMenu.match(name)
-        assert issubclass(plugin, M)
+        assert issubclass(plugin, PluginPoints)
         PluginPoints.REGISTER[name] = plugin
-
-class M(object):
-    def __init__(self, *args):
-        pass
+    def __init__(self):
+        self.MustBeCustomized()
+        self.reference = {'e':self.explorer, 'i':self.interpreter, 'm':self.media}
+        setattr(self.explorer, 'reference', self.reference)
+        setattr(self.interpreter, 'reference', self.reference)
+        setattr(self.media, 'reference', self.reference)
+    def MustBeCustomized(self):
+        '''
+        self.self.explorer = XXX
+        self.interpreter = YYY
+        self.media = ZZZ
+        '''
     def Plugin(self):
-        pass
+        '''
+        PluginPoints.EXPLORER.AddPage(self.explorer, self.explorer.GetName(), select=True)
+        PluginPoints.INTERPRETER.AddPage(self.interpreter, self.interpreter.GetName(), select=True)
+        PluginPoints.MEDIA.AddPage(self.media, self.media.GetName(), select=True)
+        '''

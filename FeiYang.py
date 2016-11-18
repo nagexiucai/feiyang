@@ -48,6 +48,7 @@ class FyFrame(wx.Frame):
         self.__wmanager.AddPane(self.__fymedia, wx.aui.AuiPaneInfo().Name('FyMedia').Caption('FyMedia').CenterPane().CaptionVisible().MinSize((DefaultFyMediaWidth, DefaultFyMediaHeight)).MaximizeButton())
         self.__wmanager.Update()
         self.AddPane(self.__fyexplorer, FSTreeView(self.__fyexplorer), title='Directions')
+        self.AddPane(self.__fyinterpreter, Editor(self.__fyinterpreter), title='Console')
         self.AddPane(self.__fymedia, Editor(self.__fymedia), title='Paper')
     def AddPane(self, target, pane, **kws):
         target.AddPage(pane, kws.get('title', 'pane'))
@@ -55,10 +56,70 @@ class FyFrame(wx.Frame):
     def EvtBind(self):
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self.Bind(wx.EVT_MENU, self.OnMenu)
+        self.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
+#         self.__fyexplorer.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
+#         self.__fyinterpreter.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
+#         self.__fymedia.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
     def OnClose(self, evt):
         self.Destroy()
     def RedirectStdIO(self, stdin, stdout, stderr):
         pass
+    def Cascade(self, evt):
+        #TODO: 减少代码行数实现同样的逻辑
+        #TODO: 插件的三模块每加载一个都会触发wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED并执行此方法，导致尚未加载完成的模块找不到
+        #print evt.GetSelection(), evt.GetOldSelection()
+        if evt.GetEventObject().GetId() == self.__fyexplorer.GetId():
+            cp = self.__fyexplorer.GetCurrentPage()
+            if not hasattr(cp, 'reference'):
+                return
+            e = cp.reference.get('e')
+            if e and cp.GetId() == e.GetId():
+                i = cp.reference.get('i')
+                if i:
+                    n = self.__fyinterpreter.GetPageIndex(i)
+                    if n != NotFound:
+                        self.__fyinterpreter.SetSelection(n)
+                m = cp.reference.get('m')
+                if m:
+                    n = self.__fymedia.GetPageIndex(m)
+                    if n != NotFound:
+                        self.__fymedia.SetSelection(n)
+                return
+        elif evt.GetEventObject().GetId() == self.__fyinterpreter.GetId():
+            cp = self.__fyinterpreter.GetCurrentPage()
+            if not hasattr(cp, 'reference'):
+                return
+            i = cp.reference.get('i')
+            if i and cp.GetId() == i.GetId():
+                e = cp.reference.get('e')
+                if e:
+                    n = self.__fyexplorer.GetPageIndex(e)
+                    if n != NotFound:
+                        self.__fyexplorer.SetSelection(n)
+                m = cp.reference.get('m')
+                if m:
+                    n = self.__fymedia.GetPageIndex(m)
+                    if n!= NotFound:
+                        self.__fymedia.SetSelection(n)
+                return
+        elif evt.GetEventObject().GetId() == self.__fymedia.GetId():
+            cp = self.__fymedia.GetCurrentPage()
+            if not hasattr(cp, 'reference'):
+                return
+            m = cp.reference.get('m')
+            if m and cp.GetId() == m.GetId():
+                e = cp.reference.get('e')
+                if e:
+                    n = self.__fyexplorer.GetPageIndex(e)
+                    if n != NotFound:
+                        self.__fyexplorer.SetSelection(n)
+                i = cp.reference.get('i')
+                if i:
+                    n = self.__fyinterpreter.GetPageIndex(i)
+                    if n != NotFound:
+                        self.__fyinterpreter.SetSelection(n)
+                return
+        evt.Skip()
     def OnMenu(self, evt):
         wid = evt.GetId()
         item = self.GetMenuBar().FindItemById(wid)
@@ -67,6 +128,10 @@ class FyFrame(wx.Frame):
             exec('%s().Plugin()' % name)
         except Exception as e:
             print e.message
+        else:
+            pass
+        finally:
+            pass
 
 class FyApp(wx.App):
     def __init__(self, frame):

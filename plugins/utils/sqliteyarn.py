@@ -5,18 +5,29 @@
 @license: gpl
 '''
 
-from plugins import M, PluginPoints
+from plugins import PluginPoints
 from widgets.grids import SimpGridView
 from widgets.treeviews import TreeView, TreeViewHome
+from widgets.texteditor import Editor
 from common.node import Node
+from config.constants import *
 
-class SQLiteYarn(M):
+class SQLiteYarn(PluginPoints):
     def __init__(self):
-        M.__init__(self)
-        self.database = TreeView(PluginPoints.EXPLORER)
-        self.table = SimpGridView(PluginPoints.MEDIA)
+        PluginPoints.__init__(self)
+    def MustBeCustomized(self):
+        self.explorer = TreeView(PluginPoints.EXPLORER)
+        self.explorer.SetName('Database')
+        self.interpreter = Editor(PluginPoints.INTERPRETER)
+        self.interpreter.SetName('Sql')
+        self.media = SimpGridView(PluginPoints.MEDIA)
+        self.media.SetName('Table')
     def Plugin(self):
-        PluginPoints.EXPLORER.AddPage(self.database, 'database', select=True)
-        PluginPoints.MEDIA.AddPage(self.table, 'table', select=True)
+        PluginPoints.EXPLORER.AddPage(self.explorer, self.explorer.GetName(), select=True)
+        PluginPoints.EXPLORER.Update()
+        PluginPoints.INTERPRETER.AddPage(self.interpreter, self.interpreter.GetName(), select=True)
+        PluginPoints.INTERPRETER.Update()
+        PluginPoints.MEDIA.AddPage(self.media, self.media.GetName(), select=True)
+        PluginPoints.MEDIA.Update()
 
 PluginPoints.SecureRegister('"S&QLiteYarn"[CTRL+Q](As UI for SQLite.)<>', SQLiteYarn)
