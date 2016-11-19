@@ -65,23 +65,10 @@ def RmvPath(path):
     return True
 
 class FSOperate:
-    def __init__(self):
-        pass
-    def Open(self):
-        pass
-    def Close(self):
-        pass
-    def Save(self):
-        pass
-    def SaveAs(self, path):
-        pass
-    def OverWrteAlert(self):
-        pass
-    def Delete(self):
-        pass
-
-
-
-
-
-
+    def __init__(self):pass
+    def Open(self):pass
+    def Close(self):pass
+    def Save(self):pass
+    def SaveAs(self, path):pass
+    def OverWrteAlert(self):pass
+    def Delete(self):pass

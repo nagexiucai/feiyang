@@ -6,12 +6,42 @@
 '''
 
 import wx
+import wx.lib.evtmgr as EM
 import re
+import os
 
 #System
 DEBUG = True
 IdBase = wx.NewId()
 Smallest = None
+NEWLINE = os.linesep
+
+#Framework Event
+ONLY_INNER = 0
+CAN_LISTEN_ONE_SOURCE = 1
+CAN_LISTEN_SOURCE_RANGE = 2
+NEW_PROJECT = wx.NewEventType()
+NEW_PROJECT_BD = wx.PyEventBinder(NEW_PROJECT, CAN_LISTEN_ONE_SOURCE)
+'''
+Bind(EventTypeBD, method, source/{id}) @ WhoCatchesTheEvent
+event = wx.PyCommandEvent(EventType, IdForWhoMakeTheEvent) @ WhereGenerateTheEvent #TODO: should travel up to parent windows looking for a handler!
+wx.PostEvent(wx.Window/wx.EvtHandler, event) @ WhereEver
+GetEventHandler().ProcessEvent(event)
+
+wx.lib.evtmgr.eventManager
+Invoke any of the following methods.
+These methods are 'safe'; duplicate registrations or de-registrations will have no effect.
+Registering a listener:
+  EventManager.Register(listener, event, source)
+De-registering by window:
+  EventManager.DeregisterWindow(event-source)
+De-registering by listener:
+  EventManager.DeregisterListener(listener)
+
+EventManager.Register(listener, event, source, win, id)
+listener can be any callable object.
+win for specific where the event is delivered; id of event source.
+'''
 
 #Regular Expression Machine
 ReXMMenu = re.compile('"(.*?)"\[(.*?)\]\((.*?)\)<(.*?)>')

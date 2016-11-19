@@ -45,16 +45,19 @@ class Text(wx.TextCtrl):
                 }
     __nonstyle = 0
     def __init__(self, parent, *styles, **kws):
-        wx.TextCtrl.__init__(self, parent, style=self._StyleGenerator(styles))
+        wx.TextCtrl.__init__(self, parent, style=wx.TE_MULTILINE|wx.TE_PROCESS_ENTER)
         self.SetName(kws.get('name', wx.TextCtrlNameStr))
         self.SetValidator(kws.get('validator', wx.DefaultValidator))
         self.SetValue(kws.get('value', wx.EmptyString))
+        self.Bind(wx.EVT_TEXT_ENTER, self.OnNewLine)
     def _StyleGenerator(self, styles):
-        return reduce(lambda a, b: self.__styles.get(a, self.__nonstyle)|self.__styles.get(b, self.__nonstyle), styles)
+        return reduce(lambda a, b: self.__styles.get(a, a)|self.__styles.get(b), styles)
     def _TextAttributeGenerator(self, style):
         if not style:
             self.__nonstyle
         return TextAttribute(**style)
+    def OnNewLine(self, evt):
+        print 'ENTER'
     def Set(self, **kws):
         value = kws.get('value')
         style = kws.get('style')
@@ -73,7 +76,7 @@ class Editor(FyLayoutMixin):
                                 }
     def __init__(self, parent, content_type='text'):
         FyLayoutMixin.__init__(self, parent)
-        self._2sz_paper = Text(self, 'rich', 'multiline', 'autoscroll', 'bestwrap', 'autourl', 'left'), Auto
+        self._2sz_paper = Text(self, 'multiline', 'autoscroll', 'bestwrap', 'left', 'processenter'), Auto
         self.__content_type = type
         self.FyLayout()
     def SetContent(self, content):

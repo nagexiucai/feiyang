@@ -6,6 +6,7 @@
 '''
 
 from config.constants import *
+from common.exceptions import Fatal
 
 class PluginPoints(object):
     REGISTER = {}
@@ -30,6 +31,7 @@ class PluginPoints(object):
         self.interpreter = YYY
         self.media = ZZZ
         '''
+        raise Fatal('please redefine MustBeCustomized!')
     def Plugin(self):
         '''
         PluginPoints.EXPLORER.AddPage(self.explorer, self.explorer.GetName(), select=True)

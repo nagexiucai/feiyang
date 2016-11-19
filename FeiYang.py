@@ -57,16 +57,16 @@ class FyFrame(wx.Frame):
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self.Bind(wx.EVT_MENU, self.OnMenu)
         self.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
-#         self.__fyexplorer.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
-#         self.__fyinterpreter.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
-#         self.__fymedia.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
+        self.Bind(NEW_PROJECT_BD, self.OnCommandDefault)
+    def OnCommandDefault(self, evt):
+        print 'command default'
     def OnClose(self, evt):
         self.Destroy()
-    def RedirectStdIO(self, stdin, stdout, stderr):
-        pass
+    def RedirectStdIO(self, stdin, stdout, stderr):pass
+        #TODO: 将标准流定向到Console窗口
     def Cascade(self, evt):
         #TODO: 减少代码行数实现同样的逻辑
-        #TODO: 插件的三模块每加载一个都会触发wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED并执行此方法，导致尚未加载完成的模块找不到
+        #NotFound: 插件的三模块每加载一个都会触发wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED并执行此方法，导致尚未加载完成的模块找不到
         #print evt.GetSelection(), evt.GetOldSelection()
         if evt.GetEventObject().GetId() == self.__fyexplorer.GetId():
             cp = self.__fyexplorer.GetCurrentPage()
@@ -124,14 +124,15 @@ class FyFrame(wx.Frame):
         wid = evt.GetId()
         item = self.GetMenuBar().FindItemById(wid)
         name = item.GetLabel()
+        if 'Project' == name:
+            event = wx.PyCommandEvent(NEW_PROJECT, self.GetId())
+            self.GetEventHandler().ProcessEvent(event)
         try:
-            exec('%s().Plugin()' % name)
+            exec('%s().Plugin()' % name) #TODO: 不安全
         except Exception as e:
             print e.message
-        else:
-            pass
-        finally:
-            pass
+        else:pass
+        finally:pass
 
 class FyApp(wx.App):
     def __init__(self, frame):
