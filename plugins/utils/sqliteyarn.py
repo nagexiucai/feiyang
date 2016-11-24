@@ -7,16 +7,24 @@
 
 from plugins import PluginPoints
 from widgets.grids import SimpGridView
-from widgets.treeviews import TreeView, TreeViewHome
+from widgets.treeviews import TreeView, TreeViewOptions, TreeViewHome
 from widgets.texteditor import Editor
 from common.node import Node
 from config.constants import *
+
+class SQLiteYarnDatabase(TreeView):
+    def __init__(self, parent):
+        TreeView.__init__(self, parent)
+    def MakeOptions(self):
+        return TreeViewOptions(self)
+    def MakeTree(self):
+        return TreeViewHome(self, Node('Node'))
 
 class SQLiteYarn(PluginPoints):
     def __init__(self):
         PluginPoints.__init__(self)
     def MustBeCustomized(self):
-        self.explorer = TreeView(PluginPoints.EXPLORER)
+        self.explorer = SQLiteYarnDatabase(PluginPoints.EXPLORER)
         self.explorer.SetName('Database')
         self.interpreter = Editor(PluginPoints.INTERPRETER)
         self.interpreter.SetName('Sql')
@@ -31,7 +39,8 @@ class SQLiteYarn(PluginPoints):
         PluginPoints.MEDIA.AddPage(self.media, self.media.GetName(), select=True)
         PluginPoints.MEDIA.Update()
     def OnNewProject(self, evt):
-        print 'new project', self.__class__.__name__
+        if self.IsCurrent():
+            print 'new project', self.__class__.__name__
         evt.Skip()
 
 PluginPoints.SecureRegister('"S&QLiteYarn"[CTRL+Q](As UI for SQLite.)<>', SQLiteYarn)

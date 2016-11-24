@@ -42,6 +42,8 @@ EventManager.Register(listener, event, source, win, id)
 listener can be any callable object.
 win for specific where the event is delivered; id of event source.
 '''
+OPTIONS = wx.NewEventType()
+OPTIONS_BD = wx.PyEventBinder(OPTIONS, CAN_LISTEN_ONE_SOURCE)
 
 #Regular Expression Machine
 ReXMMenu = re.compile('"(.*?)"\[(.*?)\]\((.*?)\)<(.*?)>')
@@ -73,9 +75,6 @@ DefaultInterpreterWidth = 140
 DefaultInterpreterHeight = 140
 DefaultFyMediaWidth = 320
 DefaultFyMediaHeight = 240
+DefaultButtonWidth = 20
 
 #Built-in Widgets ID
-IdTreeCollapseAll = IdBase + 1
-IdTreeExpandAll = IdBase + 2
-IdTreeCollapseThis = IdBase + 3
-IdTreeExpandThis = IdBase + 4

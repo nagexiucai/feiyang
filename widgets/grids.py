@@ -9,9 +9,20 @@ from wxbasics import FyLayoutMixin
 import wx.grid
 from config.constants import *
 
+class SimpGridViewOptions(FyLayoutMixin):
+    def __init__(self, parent):
+        FyLayoutMixin.__init__(self, parent)
+        self.aspect = self._horizental
+        self._2sz_new = wx.Button(self, size=(DefaultButtonWidth, Auto), label='New'), Auto
+        self._2sz_open = wx.Button(self, size=(DefaultButtonWidth, Auto), label='Open'), Auto
+        self._2sz_save = wx.Button(self, size=(DefaultButtonWidth, Auto), label='Save'), Auto
+        self._2sz_close = wx.Button(self, size=(DefaultButtonWidth, Auto), label='Close'), Auto
+        self.FyLayout()
+
 class SimpGridView(FyLayoutMixin):
     def __init__(self, parent):
         FyLayoutMixin.__init__(self, parent)
+        self._2sz_options = SimpGridViewOptions(self), Fixed
         self._2sz_grid = wx.grid.Grid(self), Auto
         self.FyLayout()
     def Create(self, r, c, mih=wx.grid.GRID_DEFAULT_ROW_HEIGHT, miw=wx.grid.GRID_DEFAULT_COL_WIDTH):

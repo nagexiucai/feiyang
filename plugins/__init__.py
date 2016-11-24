@@ -25,6 +25,9 @@ class PluginPoints(object):
         setattr(self.explorer, 'reference', self.reference)
         setattr(self.interpreter, 'reference', self.reference)
         setattr(self.media, 'reference', self.reference)
+    def IsCurrent(self):
+        #TODO: 暂时以explorer的当前页所属的插件为依据
+        return self.explorer is PluginPoints.EXPLORER.GetCurrentPage()
     def MustBeCustomized(self):
         '''
         self.self.explorer = XXX
