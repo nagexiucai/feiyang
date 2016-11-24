@@ -9,6 +9,7 @@ import wx
 from wxbasics import FyLayoutMixin
 from config.constants import *
 from common.node import Node
+from selectors import SimpleSelector
 
 class TreeView(FyLayoutMixin):
     def __init__(self, parent):
@@ -16,14 +17,15 @@ class TreeView(FyLayoutMixin):
         self._2sz_options_pane = self.MakeOptions(), Fixed
         self._2sz_tree_pane = self.MakeTree(), Auto
         self.FyLayout()
-        self.Bind(wx.EVT_BUTTON, self.OnOptions)
+        self.Bind(wx.EVT_BUTTON, self.OnButton)
     def MakeOptions(self):
         return FyLayoutMixin(self)
     def MakeTree(self):
         return FyLayoutMixin(self)
-    def OnOptions(self, evt):
-        print self.__class__.__name__, evt.GetId()
+    def OnButton(self, evt):
+        label = self.FindWindowById(evt.GetId()).GetLabel()
         event = wx.PyCommandEvent(OPTIONS, self.GetId())
+        event.SetClientData(label)
         self.GetEventHandler().ProcessEvent(event)
 
 class TreeViewOptions(FyLayoutMixin):
@@ -31,9 +33,9 @@ class TreeViewOptions(FyLayoutMixin):
         def __init__(self, parent):
             FyLayoutMixin.__init__(self, parent)
             self.aspect = self._horizental
-            self._2sz_collapse_all = wx.Button(self, size=(DefaultButtonWidth, Auto), label='-A'), Auto
+            self._2sz_collapse_all = wx.Button(self, size=(DefaultButtonWidth, Auto), label='CA'), Auto
             self._2sz_expand_all = wx.Button(self, size=(DefaultButtonWidth, Auto), label='EA'), Auto
-            self._2sz_collapse_this = wx.Button(self, size=(DefaultButtonWidth, Auto), label='-'), Auto
+            self._2sz_collapse_this = wx.Button(self, size=(DefaultButtonWidth, Auto), label='C'), Auto
             self._2sz_expand_this = wx.Button(self, size=(DefaultButtonWidth, Auto), label='E'), Auto
             self.FyLayout()
     class Manipulate(FyLayoutMixin):
@@ -60,21 +62,35 @@ class TreeViewHome(FyLayoutMixin):
         self._2sz__tree = wx.TreeCtrl(self), Auto
         self.FyLayout()
         self.__root = self._2sz__tree.AddRoot(text=`root`)
-        self._2sz__tree.SetPyData(self.__root, root)
+        self.SetUserData(self.__root, root)
         self.AddItems(self.__root, root.GetKids())
         self._2sz__tree.Update()
-        self.RegisterEvent()
-    def RegisterEvent(self):
-        EM.eventManager.Register(self._OnOptions, OPTIONS_BD, self.GetParent())
-    def _OnOptions(self, evt):
-        print self.__class__.__name__
+    def GetRoot(self):
+        return self.__root
+    def SetUserData(self, node, data):
+        self._2sz__tree.SetPyData(node, data)
+    def GetUserData(self, node):
+        return self._2sz__tree.GetPyData(node)
+    def OnOptions(self, evt):
+        act = evt.GetClientData()
+        exec('self.On%s()' % act)
+    def OnNew(self):pass
+    def OnOpen(self):
+        slt = SimpleSelector(self.GetTopLevelParent(), 'database source (*.db)|*.db')
+        self.selected = slt.GetPath()
+    def OnSave(self):pass
+    def OnClose(self):pass
+    def OnCA(self):pass
+    def OnEA(self):pass
+    def OnC(self):pass
+    def OnE(self):pass
     def AddItems(self, parent, kids):
         '''
         add items recursively
         '''
         for kid in kids:
             item = self._2sz__tree.AppendItem(parent, text=`kid`)
-            self._2sz__tree.SetPyData(item, kid)
+            self.SetUserData(item, kid)
             self.AddItems(item, kid.GetKids())
 
 class FSTreeView(TreeView):
