@@ -58,9 +58,9 @@ class Text(wx.TextCtrl):
         return TextAttribute(**style)
     def OnNewLine(self, evt):
         print 'ENTER'
-    def Set(self, **kws):
-        value = kws.get('value')
-        style = kws.get('style')
+    def Set(self, **kws):pass
+#         value = kws.get('value')
+#         style = kws.get('style')
 
 class Editor(FyLayoutMixin):
     #两层（底层——图案；顶层——符号）

@@ -5,7 +5,6 @@
 @license: gpl
 '''
 
-import wx
 from wxbasics import FyLayoutMixin
 from config.constants import *
 from common.node import Node
