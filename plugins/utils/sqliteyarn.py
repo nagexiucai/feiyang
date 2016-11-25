@@ -17,18 +17,22 @@ class SQLiteYarnTreeViewHome(TreeViewHome):
     def __init__(self, parent, root):
         TreeViewHome.__init__(self, parent, root)
         EM.eventManager.Register(self.OnOptions, OPTIONS_BD, self.GetParent())
+        EM.eventManager.Register(self.OnNodeActivated, NODE_ACTIVATED_BD, self.GetParent())
     def OnOpen(self):
         TreeViewHome.OnOpen(self)
         self.db = Database(self.selected)
 #         self.db.SQL('CREATE TABLE MOVIE (NUMBER INT, NAME TEXT);')
 #         self.db.SQL('INSERT INTO MOVIE VALUES (9527, "ZXC");')
 #         self.db.SQL('SELECT * FROM TEST;')
-        self.db.SQL('select name from sqlite_master where type="table" order by name;')
+#         self.db.SQL('select name from sqlite_master where type="table" order by name;')
+        self.db.SQL('PRAGMA table_info(TEST)')
         root = self.GetUserData(self.GetRoot())
         for tbl in self.db.List():
-            node = Node(tbl[First])
+            node = Node(','.join([str(_) for _ in tbl]))#Node(tbl[First])
             root.AppendKid(node)
         self.AddItems(self.GetRoot(), root.GetKids())
+    def OnNodeActivated(self, evt):
+        print evt.GetClientData()
 
 class SQLiteYarnDatabase(TreeView):
     def __init__(self, parent):
@@ -37,6 +41,13 @@ class SQLiteYarnDatabase(TreeView):
         return TreeViewOptions(self)
     def MakeTree(self):
         return SQLiteYarnTreeViewHome(self, Node('Node'))
+    #TODO: BEGIN 覆盖父类方法
+    #实现同消息转发同样的效果
+    def OnButton(self, evt):
+        print self.__class__.__name__
+#     def OnNodeActivated(self, evt):
+#         print self.__class__.__name__
+    #END 覆盖父类方法
 
 class SQLiteYarn(PluginPoints):
     def __init__(self):

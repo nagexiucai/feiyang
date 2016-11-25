@@ -44,6 +44,8 @@ win for specific where the event is delivered; id of event source.
 '''
 OPTIONS = wx.NewEventType()
 OPTIONS_BD = wx.PyEventBinder(OPTIONS, CAN_LISTEN_ONE_SOURCE)
+NODE_ACTIVATED = wx.NewEventType()
+NODE_ACTIVATED_BD = wx.PyEventBinder(NODE_ACTIVATED, CAN_LISTEN_ONE_SOURCE)
 
 #Regular Expression Machine
 ReXMMenu = re.compile('"(.*?)"\[(.*?)\]\((.*?)\)<(.*?)>')

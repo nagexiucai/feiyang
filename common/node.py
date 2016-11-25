@@ -69,8 +69,8 @@ def StructuredByIndent2NodeTree(lines, node): #TODO: 广度优先BFS（Breadth F
                 newnode.AppendKid(x)
             elif x.GetLevel() == newnode.GetLevel(): #X节点和新节点newnode是同辈，则是老起点节点node的晚辈
                 node.AppendKid(x) #老起点节点node添加晚辈节点
-                newnode = x #同辈节点X已经添加，此后换此同辈节点X做新起点递归！
-            elif x.GetLevel() <= node.GetLevel(): #若新节点newnode层级等于或高于老起点节点node，必须退回上层谋求处理！
+                newnode = x #同辈节点X已经添加，此后换此同辈节点X做新起点递归
+            elif x.GetLevel() <= node.GetLevel(): #若新节点newnode层级等于或高于老起点节点node，必须退回上层谋求处理
                 return x
     else:
         return newnode #返回老起点节点node的长辈或同辈newnode

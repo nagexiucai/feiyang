@@ -17,15 +17,25 @@ class TreeView(FyLayoutMixin):
         self._2sz_tree_pane = self.MakeTree(), Auto
         self.FyLayout()
         self.Bind(wx.EVT_BUTTON, self.OnButton)
+        self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnNodeActivated)
     def MakeOptions(self):
         return FyLayoutMixin(self)
     def MakeTree(self):
         return FyLayoutMixin(self)
+    #TODO: BEGIN 消息转发
     def OnButton(self, evt):
         label = self.FindWindowById(evt.GetId()).GetLabel()
+        print self.__class__.__name__, label
         event = wx.PyCommandEvent(OPTIONS, self.GetId())
         event.SetClientData(label)
         self.GetEventHandler().ProcessEvent(event)
+    def OnNodeActivated(self, evt):
+        name = self._2sz_tree_pane._2sz__tree.GetItemText(evt.GetItem())
+        print self.__class__.__name__, name
+        event = wx.PyCommandEvent(NODE_ACTIVATED, self.GetId())
+        event.SetClientData(name)
+        self.GetEventHandler().ProcessEvent(event)
+    #END 消息转发
 
 class TreeViewOptions(FyLayoutMixin):
     class Flex(FyLayoutMixin):
@@ -75,6 +85,7 @@ class TreeViewHome(FyLayoutMixin):
         exec('self.On%s()' % act)
     def OnNew(self):pass
     def OnOpen(self):
+        #TODO: Bug——正确选择一次，后边放弃选择会继续使用上次选择过的文件
         slt = SimpleSelector(self.GetTopLevelParent(), 'database source (*.db)|*.db')
         self.selected = slt.GetPath()
     def OnSave(self):pass
