@@ -29,12 +29,12 @@ class TreeView(FyLayoutMixin):
         event = wx.PyCommandEvent(OPTIONS, self.GetId())
         event.SetClientData(label)
         self.GetEventHandler().ProcessEvent(event)
-    def OnNodeActivated(self, evt):
-        name = self._2sz_tree_pane._2sz__tree.GetItemText(evt.GetItem())
-        print self.__class__.__name__, name
-        event = wx.PyCommandEvent(NODE_ACTIVATED, self.GetId())
-        event.SetClientData(name)
-        self.GetEventHandler().ProcessEvent(event)
+    def OnNodeActivated(self, evt):pass
+#         name = self._2sz_tree_pane._2sz__tree.GetItemText(evt.GetItem())
+#         print self.__class__.__name__, name
+#         event = wx.PyCommandEvent(NODE_ACTIVATED, self.GetId())
+#         event.SetClientData(name)
+#         self.GetEventHandler().ProcessEvent(event)
     #END 消息转发
 
 class TreeViewOptions(FyLayoutMixin):
@@ -76,6 +76,8 @@ class TreeViewHome(FyLayoutMixin):
         self._2sz__tree.Update()
     def GetRoot(self):
         return self.__root
+    def SetUserText(self, node, text):
+        self._2sz__tree.SetItemText(node, text)
     def SetUserData(self, node, data):
         self._2sz__tree.SetPyData(node, data)
     def GetUserData(self, node):

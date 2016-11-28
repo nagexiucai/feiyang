@@ -22,6 +22,9 @@ def IsFolder(path):
 def IsFile(path):
     return os.path.isfile(path)
 
+def FileName(path):
+    return os.path.basename(path)
+
 def IsAbsolutePath(path):
     return os.path.isabs(path)
 

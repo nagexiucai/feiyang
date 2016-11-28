@@ -10,6 +10,12 @@ import wx.lib.evtmgr as EM
 import re
 import os
 
+#Walk Round
+#begin: BUG——初始化时创建好
+InitRowCount = 99
+InitColumnCount = 26
+#end
+
 #System
 DEBUG = True
 IdBase = wx.NewId()
@@ -44,8 +50,10 @@ win for specific where the event is delivered; id of event source.
 '''
 OPTIONS = wx.NewEventType()
 OPTIONS_BD = wx.PyEventBinder(OPTIONS, CAN_LISTEN_ONE_SOURCE)
-NODE_ACTIVATED = wx.NewEventType()
-NODE_ACTIVATED_BD = wx.PyEventBinder(NODE_ACTIVATED, CAN_LISTEN_ONE_SOURCE)
+#begin: used for comparing message transmission & method override
+# NODE_ACTIVATED = wx.NewEventType()
+# NODE_ACTIVATED_BD = wx.PyEventBinder(NODE_ACTIVATED, CAN_LISTEN_ONE_SOURCE)
+#end
 
 #Regular Expression Machine
 ReXMMenu = re.compile('"(.*?)"\[(.*?)\]\((.*?)\)<(.*?)>')

@@ -8,6 +8,7 @@
 import sqlite3
 
 class Database(object):
+    DB = None
     def __init__(self, db):
         self.connect = sqlite3.connect(db, check_same_thread=False)
         self.cursor = self.connect.cursor()
@@ -19,6 +20,10 @@ class Database(object):
         self.connect.close()
     def List(self):
         return self.cursor.fetchall()
+    @staticmethod
+    def DoesTableExist(table):
+        Database.DB.SQL('PRAGMA table_info([%s]);' % table)
+        return Database.DB.List()
 
 # from sqlalchemy import create_engine, Column, ForeignKey, Integer, String
 # from sqlalchemy.ext.declarative import declarative_base
