@@ -12,6 +12,7 @@ import wx.aui
 import sys
 import os
 from config.constants import *
+import traceback
 
 START_PATH = os.getcwdu()
 RESOURCES_ROOT = os.path.join(START_PATH, 'resources')
@@ -149,12 +150,12 @@ class FyFrame(wx.Frame):
         if 'Project' == name:
             event = wx.PyCommandEvent(NEW_PROJECT, self.GetId())
             self.GetEventHandler().ProcessEvent(event)
-#         try:
-        exec('%s().Plugin()' % name) #TODO: 不安全
-#         except Exception as e:
-#             print e.message
-#         else:pass
-#         finally:pass
+        try:
+            exec('%s().Plugin()' % name) #TODO: 不安全
+        except Exception:
+            traceback.print_exc()
+        else:pass
+        finally:pass
 
 class FyApp(wx.App):
     def __init__(self, frame):

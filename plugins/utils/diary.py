@@ -5,4 +5,5 @@
 @license: gpl
 '''
 
+#TODO: move default plugin to diary
 
