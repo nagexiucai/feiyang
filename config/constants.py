@@ -7,6 +7,7 @@
 
 import wx
 import wx.lib.evtmgr as EM
+import wx.propgrid as PPG
 import re
 import os
 

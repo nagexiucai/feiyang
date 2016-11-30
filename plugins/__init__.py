@@ -30,14 +30,15 @@ class PluginPoints(object):
         return self.explorer is PluginPoints.EXPLORER.GetCurrentPage()
     def MustBeCustomized(self):
         '''
-        self.self.explorer = XXX
-        self.interpreter = YYY
-        self.media = ZZZ
+        self.self.explorer = XXX(PluginPoints.EXPLORER)
+        self.interpreter = YYY(PluginPoints.INTERPRETER)
+        self.media = ZZZ(PluginPoints.MEDIA)
         '''
-        raise Fatal('please redefine MustBeCustomized!')
+        raise Fatal('please override MustBeCustomized!')
     def Plugin(self):
-        '''
         PluginPoints.EXPLORER.AddPage(self.explorer, self.explorer.GetName(), select=True)
+        PluginPoints.EXPLORER.Update()
         PluginPoints.INTERPRETER.AddPage(self.interpreter, self.interpreter.GetName(), select=True)
+        PluginPoints.INTERPRETER.Update()
         PluginPoints.MEDIA.AddPage(self.media, self.media.GetName(), select=True)
-        '''
+        PluginPoints.MEDIA.Update()

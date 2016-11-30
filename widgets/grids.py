@@ -25,6 +25,7 @@ class SimpGridView(FyLayoutMixin):
         self._2sz_options = SimpGridViewOptions(self), Fixed
         self._2sz_grid = wx.grid.Grid(self), Auto
         self._2sz_grid.CreateGrid(InitRowCount, InitColumnCount) #BUG: 初始化时创建好
+        #self._2sz_grid.GetGridCornerLabelWindow() #获取左上角窗格
         self.FyLayout()
     def Create(self, r, c, mih=wx.grid.GRID_DEFAULT_ROW_HEIGHT, miw=wx.grid.GRID_DEFAULT_COL_WIDTH):
         #TODO: BUG——必须RESIZE父窗口才能显示正确，暂时采用“初始化时创建好、使用时增删行列”的方法规避

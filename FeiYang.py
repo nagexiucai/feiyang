@@ -56,7 +56,8 @@ class FyFrame(wx.Frame):
     def EvtBind(self):
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self.Bind(wx.EVT_MENU, self.OnMenu)
-        self.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.Cascade)
+        self.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.OnPageChanged)
+        self.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CLOSE, self.OnPageClose)
         self.Bind(NEW_PROJECT_BD, self.OnCommandDefault)
     def OnCommandDefault(self, evt):
         print 'command default'
@@ -64,7 +65,28 @@ class FyFrame(wx.Frame):
         self.Destroy()
     def RedirectStdIO(self, stdin, stdout, stderr):pass
         #TODO: 将标准流定向到Console窗口
-    def Cascade(self, evt):
+    def OnPageClose(self, evt):
+        pane = evt.GetEventObject()
+        cp = None
+        if pane.GetId() == self.__fyexplorer.GetId():
+            cp = self.__fyexplorer.GetCurrentPage()
+        elif pane.GetId() == self.__fyinterpreter.GetId():
+            cp = self.__fyinterpreter.GetCurrentPage()
+        elif pane.GetId() == self.__fymedia.GetId():
+            cp = self.__fymedia.GetCurrentPage()
+        if cp and hasattr(cp, 'reference'):
+            e = cp.reference.get('e')
+            i = cp.reference.get('i')
+            m = cp.reference.get('m')
+            self.__fyexplorer.RemovePage(self.__fyexplorer.GetPageIndex(e))
+            self.__fyinterpreter.RemovePage(self.__fyinterpreter.GetPageIndex(i))
+            self.__fymedia.RemovePage(self.__fymedia.GetPageIndex(m))
+            e.DestroyChildren()
+            i.DestroyChildren()
+            m.DestroyChildren()
+            #TODO: BUG——没能全部正确关闭插件的所有资源
+        evt.Skip()
+    def OnPageChanged(self, evt):
         #TODO: 减少代码行数实现同样的逻辑
         #NotFound: 插件的三模块每加载一个都会触发wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED并执行此方法，导致尚未加载完成的模块找不到
         #print evt.GetSelection(), evt.GetOldSelection()
@@ -127,12 +149,12 @@ class FyFrame(wx.Frame):
         if 'Project' == name:
             event = wx.PyCommandEvent(NEW_PROJECT, self.GetId())
             self.GetEventHandler().ProcessEvent(event)
-        try:
-            exec('%s().Plugin()' % name) #TODO: 不安全
-        except Exception as e:
-            print e.message
-        else:pass
-        finally:pass
+#         try:
+        exec('%s().Plugin()' % name) #TODO: 不安全
+#         except Exception as e:
+#             print e.message
+#         else:pass
+#         finally:pass
 
 class FyApp(wx.App):
     def __init__(self, frame):

@@ -73,13 +73,6 @@ class SQLiteYarn(PluginPoints):
         self.media = SimpGridView(PluginPoints.MEDIA)
         self.media.SetName('Table')
         EM.eventManager.Register(self.OnNewProject, NEW_PROJECT_BD, PluginPoints.TOP)
-    def Plugin(self):
-        PluginPoints.EXPLORER.AddPage(self.explorer, self.explorer.GetName(), select=True)
-        PluginPoints.EXPLORER.Update()
-        PluginPoints.INTERPRETER.AddPage(self.interpreter, self.interpreter.GetName(), select=True)
-        PluginPoints.INTERPRETER.Update()
-        PluginPoints.MEDIA.AddPage(self.media, self.media.GetName(), select=True)
-        PluginPoints.MEDIA.Update()
     def OnNewProject(self, evt):
         if self.IsCurrent():
             print 'new project', self.__class__.__name__
