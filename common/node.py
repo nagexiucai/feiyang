@@ -100,6 +100,6 @@ def UString2Node(ustr=None):
     if ustr is None:
         ustr = UString2Node.__doc__
     lines = ustr.split('\n')
-    root = Node('Root', Smallest)
+    root = Node('Root', Smallest) #TODO: it seems that maybe None will be the smallest value in python
     StructuredByIndent2NodeTree(lines, root)
     return root

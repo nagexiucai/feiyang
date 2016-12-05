@@ -73,17 +73,26 @@ class Dashboard(FyLayoutMixin):
             def __init__(self, parent):
                 FyLayoutMixin.__init__(self, parent)
                 self.aspect = self._horizental
-                self._2sz_load = wx.Button(self, size=(DefaultButtonWidth, Auto), label='load'), Auto
-                self._2sz_save = wx.Button(self, size=(DefaultButtonWidth, Auto), label='save'), Auto
+                self._2sz_load = wx.Button(self, size=(DefaultButtonWidth, Auto), label='Load'), Auto
+                self._2sz_save = wx.Button(self, size=(DefaultButtonWidth, Auto), label='Save'), Auto
                 self.FyLayout()
         self._2sz_options = Options(self), Fixed
         class Config(FyLayoutMixin):
             def __init__(self, parent):
                 FyLayoutMixin.__init__(self, parent)
-                self._2sz_properties = PPG.PropertyGridManager(self), Auto
+                self._2sz_properties = PPG.PropertyGridManager(self, style=PPG.PG_TOOLBAR|PPG.PG_AUTO_SORT), Auto
                 self.FyLayout()
         self._2sz_config = Config(self), Auto
         self.FyLayout()
+        self.Bind(wx.EVT_BUTTON, self.OnOptions)
+        self.Bind(PPG.EVT_PG_CHANGED, self.OnPropertyChanged)
+        self.Bind(PPG.EVT_PG_PAGE_CHANGED, self.OnPropertyPageChanged)
+    def OnOptions(self, evt):
+        act = self.FindWindowById(evt.GetId()).GetLabel()
+        if 'Load' == act:
+            pass
+    def OnPropertyChanged(self, evt):pass
+    def OnPropertyPageChanged(self, evt):pass
 
 class CrossDevOps(PluginPoints):
     def __init__(self):

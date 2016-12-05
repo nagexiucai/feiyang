@@ -67,11 +67,22 @@ def RmvPath(path):
         return False
     return True
 
-class FSOperate:
-    def __init__(self):pass
-    def Open(self):pass
-    def Close(self):pass
+class FSOperate(object):
+    TEXT = 'a'
+    BINARY = 'ba'
+    def Open(self, path, mode=None):
+        self.path = path
+        self.file = file(path, mode or FSOperate.TEXT)
+    def Read(self):
+        return self.file.read()
+    def LazyRead(self):
+        return self.file.xreadlines()
+    def Write(self, things):pass
+    def Close(self):
+        self.file.flush()
+        self.file.close()
     def Save(self):pass
     def SaveAs(self, path):pass
     def OverWrteAlert(self):pass
     def Delete(self):pass
+    def TransportIntoNodeTree(self, data, whatsit='indent', parser=None):pass #TODO: indent类型就是TreeView的测试数据格式，对应parser是StructuredByIndent2NodeTree

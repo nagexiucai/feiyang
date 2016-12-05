@@ -1,0 +1,78 @@
+%PyYAML 3.12
+---
+#=====grouped by host=====
+##cluster
+##  |
+##  vm.centos
+##    |-192.168.100.7
+##    |-source
+##  a.centos
+##    |-192.168.100.100
+##    |-control
+##  b.centos
+##    |-192.168.100.101
+##    |-control
+##  c.centos
+##    |-192.168.100.102
+##    |-compute
+##    |-monitor(storage)
+##    |-osd(storage)
+##  d.centos
+##    |-192.168.100.103
+##    |-compute
+##    |-monitor(storage)
+##    |-osd(storage)
+##  e.centos
+##    |-192.168.100.104
+##    |-compute
+##    |-monitor(storage)
+##    |-osd(storage)
+#=====grouped by role=====
+##cluster
+##  |-source
+##    |-vm.centos(192.168.100.7)
+##  |-contorl
+##    |-a.centos(192.168.100.100)
+##    |-b.centos(192.168.100.101)
+##  |-compute
+##    |-c.centos(192.168.100.102)
+##    |-d.centos(192.168.100.103)
+##    |-e.centos(192.168.100.104)
+##  |-monitor(storage)
+##    |-c.centos(192.168.100.102)
+##    |-d.centos(192.168.100.103)
+##    |-e.centos(192.168.100.104)
+##  |-osd(storage)
+##    |-c.centos(192.168.100.102)
+##    |-d.centos(192.168.100.103)
+##    |-e.centos(192.168.100.104)
+vm.centos:
+ role: source
+ ip: 192.168.100.7
+ password: 111111
+a.centos:
+ role: control
+ ip: 192.168.100.100
+ password: 111111
+b.centos:
+ role: control
+ ip: 192.168.100.101
+ password: 111111
+c.centos:
+ role:
+ - compute
+ - storage: [monitor, osd]
+ ip: 192.168.100.102
+ password: 111111
+d.centos:
+ role:
+ - compute
+ - storage: [monitor, osd]
+ ip: 192.168.100.103
+ password: 111111
+e.centos:
+ role:
+ - compute
+ - storage: [monitor, osd]
+ ip: 192.168.100.104
+ password: 111111
