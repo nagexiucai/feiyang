@@ -77,4 +77,4 @@ class SQLiteYarn(PluginPoints):
             pass
         evt.Skip()
 
-PluginPoints.SecureRegister('"S&QLiteYarn"[CTRL+Q](As UI for SQLite.)<>', SQLiteYarn)
+PluginPoints.SecureRegister('"!S&QLiteYarn"[CTRL+Q](As UI for SQLite.)<>', SQLiteYarn)

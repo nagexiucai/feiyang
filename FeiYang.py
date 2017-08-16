@@ -68,25 +68,25 @@ class FyFrame(wx.Frame):
     def RedirectStdIO(self, stdin, stdout, stderr):pass
         #TODO: 将标准流定向到Console窗口
     def OnPageClose(self, evt):
-        pane = evt.GetEventObject()
-        cp = None
-        if pane.GetId() == self.__fyexplorer.GetId():
-            cp = self.__fyexplorer.GetCurrentPage()
-        elif pane.GetId() == self.__fyinterpreter.GetId():
-            cp = self.__fyinterpreter.GetCurrentPage()
-        elif pane.GetId() == self.__fymedia.GetId():
-            cp = self.__fymedia.GetCurrentPage()
-        if cp and hasattr(cp, 'reference'):
-            e = cp.reference.get('e')
-            i = cp.reference.get('i')
-            m = cp.reference.get('m')
-            self.__fyexplorer.RemovePage(self.__fyexplorer.GetPageIndex(e))
-            self.__fyinterpreter.RemovePage(self.__fyinterpreter.GetPageIndex(i))
-            self.__fymedia.RemovePage(self.__fymedia.GetPageIndex(m))
-            e.DestroyChildren()
-            i.DestroyChildren()
-            m.DestroyChildren()
-            #TODO: BUG——插件卸载机制不健全，没有全部正确关闭插件的所有资源
+#         pane = evt.GetEventObject()
+#         cp = None
+#         if pane.GetId() == self.__fyexplorer.GetId():
+#             cp = self.__fyexplorer.GetCurrentPage()
+#         elif pane.GetId() == self.__fyinterpreter.GetId():
+#             cp = self.__fyinterpreter.GetCurrentPage()
+#         elif pane.GetId() == self.__fymedia.GetId():
+#             cp = self.__fymedia.GetCurrentPage()
+#         if cp and hasattr(cp, 'reference'):
+#             e = cp.reference.get('e')
+#             i = cp.reference.get('i')
+#             m = cp.reference.get('m')
+#             self.__fyexplorer.RemovePage(self.__fyexplorer.GetPageIndex(e))
+#             self.__fyinterpreter.RemovePage(self.__fyinterpreter.GetPageIndex(i))
+#             self.__fymedia.RemovePage(self.__fymedia.GetPageIndex(m))
+#             e.DestroyChildren()
+#             i.DestroyChildren()
+#             m.DestroyChildren()
+#             #TODO: BUG——插件卸载机制不健全，没有全部正确关闭插件的所有资源
         evt.Skip()
     def OnPageChanged(self, evt):
         #TODO: 减少代码行数实现同样的逻辑

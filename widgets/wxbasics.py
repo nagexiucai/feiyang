@@ -52,7 +52,9 @@ class FyMenuMixin(wx.Menu):
             if shortname == style == '|':
                 self.AppendSeparator()
                 continue
-            self.Append(wx.NewId(), text='%s\t%s' % (shortname, shortcut), help=tip, kind=self.__styles.get(style, wx.ITEM_NORMAL))
+            item = self.Append(wx.NewId(), text='%s\t%s' % (shortname, shortcut), help=tip, kind=self.__styles.get(style, wx.ITEM_NORMAL))
+            if shortname.startswith("!"):
+                item.Enable(False)
 
 class FyMenuBarMixin(wx.MenuBar):
     def __init__(self, parent):

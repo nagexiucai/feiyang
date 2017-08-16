@@ -18,6 +18,7 @@ class TreeView(FyLayoutMixin):
         self.FyLayout()
         self.Bind(wx.EVT_BUTTON, self.OnButton)
         self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnNodeActivated)
+        self.Bind(wx.EVT_TREE_ITEM_MENU, self.OnNodeMenu)
     def MakeOptions(self):
         return FyLayoutMixin(self)
     def MakeTree(self):
@@ -35,6 +36,7 @@ class TreeView(FyLayoutMixin):
 #         event.SetClientData(name)
 #         self.GetEventHandler().ProcessEvent(event)
     #END 消息转发
+    def OnNodeMenu(self, evt):pass
 
 class TreeViewOptions(FyLayoutMixin):
     class Flex(FyLayoutMixin):

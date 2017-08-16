@@ -82,3 +82,9 @@ class Editor(FyLayoutMixin):
         pass
     def GetContent(self):
         pass
+
+class Board(FyLayoutMixin):
+    def __init__(self, parent):
+        FyLayoutMixin.__init__(self, parent)
+        self._2sz_caption = wx.TextCtrl(parent, style=wx.TE_PROCESS_ENTER), Auto
+        self.FyLayout()

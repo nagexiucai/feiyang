@@ -105,4 +105,4 @@ class CrossDevOps(PluginPoints):
         self.media = Dashboard(PluginPoints.MEDIA)
         self.media.SetName('Dashboard')
 
-PluginPoints.SecureRegister('"Cross&DevOps"[CTRL+D](As UI for DevOps.)<>', CrossDevOps)
+PluginPoints.SecureRegister('"!Cross&DevOps"[CTRL+D](As UI for DevOps.)<>', CrossDevOps)
