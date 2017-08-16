@@ -5,7 +5,6 @@
 @license: gpl
 '''
 
-import wx
 import wx.aui
 from config.constants import *
 from plugins import PluginPoints
@@ -71,7 +70,7 @@ class FyMenuBarMixin(wx.MenuBar):
         &Edit
         Plug&Ins${plugins}
         S&Kin$"Blue"[]()<radio>"Black"[]()<radio>"Silver"[]()<radio>
-        &Help
+        &Help$"About"[](Copyright Notice)<>
         '''
         if description is None:
             description = self.ParseDescription.__doc__.strip().format(plugins=';'.join(PluginPoints.REGISTER.keys()))

@@ -25,7 +25,6 @@ class TreeView(FyLayoutMixin):
     #TODO: BEGIN 消息转发
     def OnButton(self, evt):
         label = self.FindWindowById(evt.GetId()).GetLabel()
-        print self.__class__.__name__, label
         event = wx.PyCommandEvent(OPTIONS, self.GetId())
         event.SetClientData(label)
         self.GetEventHandler().ProcessEvent(event)

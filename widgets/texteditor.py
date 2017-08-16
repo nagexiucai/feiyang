@@ -56,8 +56,7 @@ class Text(wx.TextCtrl):
         if not style:
             self.__nonstyle
         return TextAttribute(**style)
-    def OnNewLine(self, evt):
-        print 'ENTER'
+    def OnNewLine(self, evt):pass
     def Set(self, **kws):pass
 #         value = kws.get('value')
 #         style = kws.get('style')
@@ -77,7 +76,7 @@ class Editor(FyLayoutMixin):
     def __init__(self, parent, content_type='text'):
         FyLayoutMixin.__init__(self, parent)
         self._2sz_paper = Text(self, 'multiline', 'autoscroll', 'bestwrap', 'left', 'processenter'), Auto
-        self.__content_type = type
+        self.content_type = content_type
         self.FyLayout()
     def SetContent(self, content):
         pass

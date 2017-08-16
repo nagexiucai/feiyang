@@ -17,8 +17,6 @@ class CourseWareTreeViewHome(TreeViewHome):
 class CourseWareSection(TreeView):
     def __init__(self, parent):
         TreeView.__init__(self, parent)
-    def MakeOptions(self):
-        return TreeViewOptions(self)
     def MakeTree(self):
         return CourseWareTreeViewHome(self, Node('manual'))
 
@@ -30,6 +28,7 @@ class CourseWare(PluginPoints):
         self.explorer.SetName('Outline')
         self.interpreter = Editor(PluginPoints.INTERPRETER)
         self.interpreter.SetName('Log')
+        self.interpreter.Disable()
         self.media = Editor(PluginPoints.MEDIA)
         self.media.SetName('Box')
 

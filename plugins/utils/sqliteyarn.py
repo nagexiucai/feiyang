@@ -50,7 +50,6 @@ class SQLiteYarnDatabase(TreeView):
         self.reference['m'].Clear()
         item = evt.GetItem()
         name = self._2sz_tree_pane._2sz__tree.GetItemText(item)
-        print self.__class__.__name__, name
         info = Database.DoesTableExist(name)
         if not info:return
         for c, datum in enumerate(info):
@@ -75,7 +74,7 @@ class SQLiteYarn(PluginPoints):
         EM.eventManager.Register(self.OnNewProject, NEW_PROJECT_BD, PluginPoints.TOP)
     def OnNewProject(self, evt):
         if self.IsCurrent():
-            print 'new project', self.__class__.__name__
+            pass
         evt.Skip()
 
 PluginPoints.SecureRegister('"S&QLiteYarn"[CTRL+Q](As UI for SQLite.)<>', SQLiteYarn)

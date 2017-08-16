@@ -6,7 +6,7 @@
 '''
 
 __mark__ = 'FeiYang'
-__version__ = '0.0.1'
+__version__ = '0.1.0'
 
 import wx.aui
 import sys
@@ -25,6 +25,7 @@ from config.images import PyImage_MainFrame
 from widgets.wxbasics import FyMenuBarMixin, FyStatusBarMixin, FyNotebookMixin
 from widgets.treeviews import FSTreeView
 from widgets.texteditor import Editor
+from widgets.popups import *
 
 class FyFrame(wx.Frame):
     def __init__(self, title):
@@ -48,9 +49,10 @@ class FyFrame(wx.Frame):
         self.__wmanager.AddPane(self.__fyinterpreter, wx.aui.AuiPaneInfo().Name('FyInterpreter').Caption('FyInterpreter').Bottom().MinSize((DefaultInterpreterWidth, DefaultInterpreterHeight)).MaximizeButton().CloseButton(False))
         self.__wmanager.AddPane(self.__fymedia, wx.aui.AuiPaneInfo().Name('FyMedia').Caption('FyMedia').CenterPane().CaptionVisible().MinSize((DefaultFyMediaWidth, DefaultFyMediaHeight)).MaximizeButton())
         self.__wmanager.Update()
-        self.AddPane(self.__fyexplorer, FSTreeView(self.__fyexplorer), title='Directions')
-        self.AddPane(self.__fyinterpreter, Editor(self.__fyinterpreter), title='Console')
-        self.AddPane(self.__fymedia, Editor(self.__fymedia), title='Paper')
+#TODO: 系统插件
+#         self.AddPane(self.__fyexplorer, FSTreeView(self.__fyexplorer), title='Directions')
+#         self.AddPane(self.__fyinterpreter, Editor(self.__fyinterpreter), title='Console')
+#         self.AddPane(self.__fymedia, Editor(self.__fymedia), title='Paper')
     def AddPane(self, target, pane, **kws):
         target.AddPage(pane, kws.get('title', 'pane'))
         target.Update()
@@ -60,8 +62,7 @@ class FyFrame(wx.Frame):
         self.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.OnPageChanged)
         self.Bind(wx.aui.EVT_AUINOTEBOOK_PAGE_CLOSE, self.OnPageClose)
         self.Bind(NEW_PROJECT_BD, self.OnCommandDefault)
-    def OnCommandDefault(self, evt):
-        print 'command default'
+    def OnCommandDefault(self, evt):pass
     def OnClose(self, evt):
         self.Destroy()
     def RedirectStdIO(self, stdin, stdout, stderr):pass
@@ -85,7 +86,7 @@ class FyFrame(wx.Frame):
             e.DestroyChildren()
             i.DestroyChildren()
             m.DestroyChildren()
-            #TODO: BUG——没能全部正确关闭插件的所有资源
+            #TODO: BUG——插件卸载机制不健全，没有全部正确关闭插件的所有资源
         evt.Skip()
     def OnPageChanged(self, evt):
         #TODO: 减少代码行数实现同样的逻辑
@@ -152,10 +153,18 @@ class FyFrame(wx.Frame):
             self.GetEventHandler().ProcessEvent(event)
         try:
             exec('%s().Plugin()' % name) #TODO: 不安全
-        except Exception:
+        except NameError:
             traceback.print_exc()
+            try:
+                getattr(self, 'On%s' % name)()
+            except AttributeError:
+                traceback.print_exc()
+            else:pass
+            finally:pass
         else:pass
         finally:pass
+    def OnAbout(self):
+        ShowMessage("By NageXiucai.COM & ALL BUGS RESERVED!", "Copyright")
 
 class FyApp(wx.App):
     def __init__(self, frame):
