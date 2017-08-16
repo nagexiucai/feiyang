@@ -6,4 +6,3 @@
 '''
 
 #TODO: move default plugin to diary
-

@@ -5,6 +5,8 @@
 @license: gpl
 '''
 
+#TODO: 用SQLAlchemy替代或自主实现一种ORM
+
 import sqlite3
 
 class Database(object):

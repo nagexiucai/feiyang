@@ -69,7 +69,7 @@ class FyMenuBarMixin(wx.MenuBar):
         '''
         &File$"&New"[CTRL+N](Create Or Open Existence.)<>:"&Project"[CTRL+P](Manage Works.)<>"|"[]()<|>"T&Ext"[CTRL+E](For Words Editing.)<>"&Binary"[CTRL+B](For Data Editing.)<>;;"Save&As"[CTRL+A](Record On Disk.)<>
         &Edit
-        Plug&Ins$%{plugins}
+        Plug&Ins${plugins}
         S&Kin$"Blue"[]()<radio>"Black"[]()<radio>"Silver"[]()<radio>
         &Help
         '''
