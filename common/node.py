@@ -16,18 +16,20 @@ class Node:
         self.__attributes = {}
     def GetName(self):
         return self.__name
+    def SetName(self, name):
+        self.__name = name
     def GetLevel(self):
         return self.__level
     def SetParent(self, parent):
         self.__parent = parent
     def GetKids(self):
         return self.__kids
-    def GetAttribute(self, attr):
-        return self.__attributes.get(attr)
-    def AppendKid(self, kidnode):
-        self.__kids.append(kidnode)
+    def GetAttribute(self, attr, default=None):
+        return self.__attributes.get(attr, default)
     def SetAttribute(self, k, v):
         self.__attributes[k] = v
+    def AppendKid(self, kidnode):
+        self.__kids.append(kidnode)
     def __str__(self):
         template = ' '.join(map(lambda key: '%s="%%(%s)s"' % (key, key), self.__attributes.keys()))
         attributes = template % self.__attributes

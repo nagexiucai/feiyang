@@ -5,11 +5,17 @@
 @license: gpl
 '''
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 import wx
+wx.SetDefaultPyEncoding('utf-8')
 import wx.lib.evtmgr as EM
 import wx.propgrid as PPG
 import re
 import os
+from pprint import pprint as PP
 
 #Walk Round
 #begin: BUG——初始化时创建好

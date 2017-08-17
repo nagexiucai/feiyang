@@ -19,6 +19,7 @@ class TreeView(FyLayoutMixin):
         self.Bind(wx.EVT_BUTTON, self.OnButton)
         self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.OnNodeActivated)
         self.Bind(wx.EVT_TREE_ITEM_MENU, self.OnNodeMenu)
+        self.Bind(wx.EVT_TREE_SEL_CHANGING, self.OnHover)
     def MakeOptions(self):
         return FyLayoutMixin(self)
     def MakeTree(self):
@@ -37,6 +38,7 @@ class TreeView(FyLayoutMixin):
 #         self.GetEventHandler().ProcessEvent(event)
     #END 消息转发
     def OnNodeMenu(self, evt):pass
+    def OnHover(self, evt):pass
 
 class TreeViewOptions(FyLayoutMixin):
     class Flex(FyLayoutMixin):
@@ -72,6 +74,7 @@ class TreeViewHome(FyLayoutMixin):
         self._2sz__tree = wx.TreeCtrl(self), Auto
         self.FyLayout()
         self.__root = self._2sz__tree.AddRoot(text=`root`)
+        self._2sz__tree.SelectItem(self.__root)
         self.SetUserData(self.__root, root)
         self.AddItems(self.__root, root.GetKids())
         self._2sz__tree.Update()
@@ -79,6 +82,8 @@ class TreeViewHome(FyLayoutMixin):
         return self.__root
     def SetUserText(self, node, text):
         self._2sz__tree.SetItemText(node, text)
+    def GetUserText(self, node):
+        return self._2sz__tree.GetItemText(node)
     def SetUserData(self, node, data):
         self._2sz__tree.SetPyData(node, data)
     def GetUserData(self, node):
@@ -103,7 +108,10 @@ class TreeViewHome(FyLayoutMixin):
         '''
         for kid in kids:
             item = self._2sz__tree.AppendItem(parent, text=`kid`)
+            #XXX: BEGIN 注意这里的顺序对TreeView.OnHover响应逻辑的影响
             self.SetUserData(item, kid)
+            self._2sz__tree.SelectItem(item)
+            #END 注意这里的顺序对TreeView.OnHover响应逻辑的影响
             self.AddItems(item, kid.GetKids())
 
 class FSTreeView(TreeView):

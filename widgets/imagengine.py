@@ -13,3 +13,9 @@ class ImageBox(FyLayoutMixin):
         FyLayoutMixin.__init__(self, parent)
         self._2sz_bmp = wx.StaticBitmap(self), Auto
         self.FyLayout()
+    def ChangeImage(self, bmp):
+        self._2sz_bmp.SetBitmap(bmp)
+    def Image2Base64(self): #TODO: 把位图保存成base64字符串
+        self.GetImage()
+    def GetImage(self):
+        return self._2sz_bmp.GetBitmap()

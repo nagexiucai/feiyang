@@ -9,8 +9,6 @@ __mark__ = 'FeiYang'
 __version__ = '0.1.0'
 
 import wx.aui
-import sys
-import os
 from config.constants import *
 import traceback
 

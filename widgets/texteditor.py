@@ -54,7 +54,7 @@ class Text(wx.TextCtrl):
         return reduce(lambda a, b: self.__styles.get(a, a)|self.__styles.get(b), styles)
     def _TextAttributeGenerator(self, style):
         if not style:
-            self.__nonstyle
+            return self.__nonstyle
         return TextAttribute(**style)
     def OnNewLine(self, evt):pass
     def Set(self, **kws):pass
@@ -79,9 +79,9 @@ class Editor(FyLayoutMixin):
         self.content_type = content_type
         self.FyLayout()
     def SetContent(self, content):
-        pass
+        self._2sz_paper.SetValue(content)
     def GetContent(self):
-        pass
+        return self._2sz_paper.GetValue()
 
 class Board(FyLayoutMixin):
     def __init__(self, parent):
