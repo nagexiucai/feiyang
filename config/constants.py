@@ -5,17 +5,27 @@
 @license: gpl
 '''
 
+__mark__ = 'FeiYang'
+__version__ = '0.1.0'
+
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+import re
+import os
+from pprint import pprint as PP
+import uuid
+import traceback
+START_PATH = os.getcwdu()
+RESOURCES_ROOT = os.path.join(START_PATH, 'resources')
+APPLICATION_LOG_PATH = os.path.join(START_PATH, 'FeiYang.error')
+APPLICATION_NAME_VERSION = '%s V%s' % (__mark__, __version__)
 
 import wx
 wx.SetDefaultPyEncoding('utf-8')
 import wx.lib.evtmgr as EM
 import wx.propgrid as PPG
-import re
-import os
-from pprint import pprint as PP
+
 
 #Walk Round
 #begin: BUG——初始化时创建好
@@ -28,6 +38,7 @@ DEBUG = True
 IdBase = wx.NewId()
 Smallest = None
 NEWLINE = os.linesep
+UUID = lambda: unicode(uuid.uuid1())
 
 #Framework Event
 ONLY_INNER = 0

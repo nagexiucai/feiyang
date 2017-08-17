@@ -5,6 +5,7 @@
 @license: gpl
 '''
 
+from config.constants import *
 from plugins import PluginPoints
 from widgets.wxbasics import FyLayoutMixin, FyMenuMixin
 from widgets.treeviews import TreeView, TreeViewHome
@@ -13,32 +14,54 @@ from widgets.imagengine import ImageBox
 from widgets.popups import TextEntry
 from widgets.clipboard import GetClipboard
 from common.node import Node
-from config.constants import *
+from common.fsoperate import JoinPath
 
 class CourseWareTreeViewHome(TreeViewHome):
     def __init__(self, parent, root):
         TreeViewHome.__init__(self, parent, root)
         EM.eventManager.Register(self.OnOptions, OPTIONS_BD, self.GetParent())
     def OnDumping(self):
+        def NewImagePath(suffix):
+            return JoinPath(RESOURCES_ROOT, 'pictures', UUID()) + suffix
         def R(t, i):
             item, cookie = self._2sz__tree.GetFirstChild(t)
             while item.IsOk():
-                text = self._2sz__tree.GetItemText(item)
-                itemtext = u'├─%s %s' % ('─'*i, text)
-                yield itemtext
+                caption = self.GetUserText(item)
+                data = self.GetUserData(item)
+                picture = data.GetAttribute('picture')
+                explain = data.GetAttribute('explain')
+                if picture.IsOk(): #IsNull
+                    jpeg = NewImagePath('.jpeg')
+                    picture.SaveFile(jpeg, wx.BITMAP_TYPE_JPEG)
+                else:
+                    jpeg = None
+#                 itemtext = u'├─%s[%d] %s "%s" {%s}' % ('─'*i, i, caption, jpeg, explain)
+#                 yield itemtext
+                yield (i, caption, jpeg, explain)
                 if self._2sz__tree.GetChildrenCount(item):
                     i+=1
                     for _ in R(item, i):
                         yield _
                     i-=1
                 item, cookie = self._2sz__tree.GetNextChild(item, cookie)
-        
+        those = []
         root = self.GetRoot()
-        roottext = self.GetUserText(root)
+        name = self.GetUserText(root)
+        rootdata = self.GetUserData(root)
+        logo = rootdata.GetAttribute('picture', wx.NullBitmap)
+        if logo.IsOk():
+            logopath = NewImagePath('.jpeg')
+            logo.SaveFile(logopath, wx.BITMAP_TYPE_JPEG)
+        else:
+            logopath = None
+        tips = rootdata.GetAttribute('explain')
         i = 0
-        print u'┌', roottext
-        for s in R(root, i):
-            print s
+#         print u'┌', name
+        those.append((i, name, logopath, tips))
+        for _ in R(root, i):
+#             print _
+            those.append(_)
+#         PP(those)
 
 class CourseWarePopupMenu(FyMenuMixin):
     def __init__(self, parent):

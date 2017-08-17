@@ -5,18 +5,8 @@
 @license: gpl
 '''
 
-__mark__ = 'FeiYang'
-__version__ = '0.1.0'
-
-import wx.aui
 from config.constants import *
-import traceback
-
-START_PATH = os.getcwdu()
-RESOURCES_ROOT = os.path.join(START_PATH, 'resources')
-APPLICATION_LOG_PATH = os.path.join(START_PATH, 'FeiYang.error')
-APPLICATION_NAME_VERSION = '%s V%s' % (__mark__, __version__)
-
+import wx.aui
 from mixing.autoimport import *
 from plugins import PluginPoints
 from config.images import PyImage_MainFrame
@@ -152,11 +142,11 @@ class FyFrame(wx.Frame):
         try:
             exec('%s().Plugin()' % name) #TODO: 不安全
         except NameError:
-            traceback.print_exc()
+#             traceback.print_exc()
             try:
                 getattr(self, 'On%s' % name)()
-            except AttributeError:
-                traceback.print_exc()
+            except AttributeError:pass
+#                 traceback.print_exc()
             else:pass
             finally:pass
         else:pass
