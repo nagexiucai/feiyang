@@ -15,6 +15,7 @@ from widgets.popups import TextEntry
 from widgets.clipboard import GetClipboard
 from common.node import Node
 from common.fsoperate import JoinPath
+from drivers.msword import MSWord
 
 class CourseWareTreeViewHome(TreeViewHome):
     def __init__(self, parent, root):
@@ -62,6 +63,9 @@ class CourseWareTreeViewHome(TreeViewHome):
 #             print _
             those.append(_)
 #         PP(those)
+        mw = MSWord()
+        out = JoinPath(RESOURCES_ROOT, name) + '.docx'
+        mw.CreateDocx(those, out)
 
 class CourseWarePopupMenu(FyMenuMixin):
     def __init__(self, parent):
