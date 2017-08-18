@@ -6,8 +6,7 @@
 '''
 
 from docx import Document
-from docx.shared import Pt, Inches
-from docx.oxml.ns import qn
+from docx.shared import Pt
 from common.fsoperate import DoesExist
 
 class DocxTemplate(object):

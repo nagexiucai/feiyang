@@ -157,7 +157,7 @@ class FyFrame(wx.Frame):
 class FyApp(wx.App):
     def __init__(self, frame):
         self.frame = frame
-        wx.App.__init__(self, False, APPLICATION_LOG_PATH)
+        wx.App.__init__(self, True, APPLICATION_LOG_PATH)
     def OnInit(self):
         self.frame = self.frame(APPLICATION_NAME_VERSION)
         self.frame.Show()
