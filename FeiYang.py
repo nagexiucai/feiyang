@@ -152,7 +152,7 @@ class FyFrame(wx.Frame):
         else:pass
         finally:pass
     def OnAbout(self):
-        ShowMessage("By NageXiucai.COM & ALL BUGS RESERVED!", "Copyright")
+        ShowMessage(u"By Bob·NX & ALL BUGS RESERVED!", "Copyright nagexiucai@qq.com")
 
 class FyApp(wx.App):
     def __init__(self, frame):
