@@ -32,11 +32,11 @@ class MSWord(object):
         self.template = DocxTemplate()
     def SetTemplate(self, template):
         self.template = template
-    def CreateDocx(self, data, out):
+    def CreateDocx(self, data, out, template):
         #入参：data [(层级, 章节标题, 插图JPEG文件绝对路径, 文本),...]
         #入参：out Word文件绝对路径
         #TODO: 丰富排版风格
-        document = Document()
+        document = Document(template)
         for i, caption, jpeg, text in data:
             document.add_heading(caption, i)
             if jpeg is not None and DoesExist(jpeg):

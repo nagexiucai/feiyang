@@ -11,10 +11,10 @@ from widgets.wxbasics import FyLayoutMixin, FyMenuMixin
 from widgets.treeviews import TreeView, TreeViewHome
 from widgets.texteditor import Editor, Board
 from widgets.imagengine import ImageBox
-from widgets.popups import TextEntry
+from widgets.popups import ShowMessage, TextEntry
 from widgets.clipboard import GetClipboard
 from common.node import Node
-from common.fsoperate import JoinPath
+from common.fsoperate import JoinPath, DoesExist
 from drivers.msword import MSWord
 
 class CourseWareTreeViewHome(TreeViewHome):
@@ -64,8 +64,12 @@ class CourseWareTreeViewHome(TreeViewHome):
             those.append(_)
 #         PP(those)
         mw = MSWord()
-        out = JoinPath(RESOURCES_ROOT, name) + '.docx'
-        mw.CreateDocx(those, out)
+        out = JoinPath(RESOURCES_ROOT, name + '.docx')
+        template = JoinPath(RESOURCES_ROOT, 'default.docx')
+        if DoesExist(template):
+            mw.CreateDocx(those, out, template)
+        else:
+            ShowMessage(template, 'Missing')
 
 class CourseWarePopupMenu(FyMenuMixin):
     def __init__(self, parent):
