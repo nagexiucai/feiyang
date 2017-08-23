@@ -6,7 +6,3 @@
 '''
 
 import PyInstaller
-import shutil
-
-from wx.lib.pubsub import setupkwargs
-from wx.lib.pubsub import pub
