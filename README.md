@@ -1,14 +1,15 @@
 # Manifesto
 ### Right, it is FeiYang!
-### Alright, it is repetition of rolling!
+### Alright, it is a repetition of wheel!
 ### Full of immature design.
 ### No matter how, it suits python beginners.
 ### Even it may be a pretty toolbox!
 ---
 # Samples
-### SQLiteYarn: As UI for SQLite, more is as a course for making plugin.
 ### Diary: As default plugin.
-### CrossDevOps: As the first practical tool for Openstack's Devops on Windows(R).
+### SQLiteYarn: As UI for SQLite, a builtin customizing sample.
+### CrossDevOps: Openstack's Devops on Windows(R).
+### CourseWare: A simple courseware making assistant.
 ---
 # Contact
 ### Email: me@nagexiucai.com
